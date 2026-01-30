@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.pyc
+.git
+.idea
+*.png
+*.jpg
+allure-results/
+.env
+Dockerfile
+.dockerignore
