@@ -70,7 +70,7 @@ def test_sort_desc(product_page):
 @allure.description("Сортировка по наименованию товара")
 @allure.id(6)
 @allure.severity("Medium")
-def test_sort_asc(product_page):
+def test_sort_a_z(product_page):
     sort_value = DataProvider().get("sort_options.a-z")
 
     product_page.sort_container(sort_value)
@@ -82,7 +82,7 @@ def test_sort_asc(product_page):
 @allure.description("Сортировка по наименованию товара")
 @allure.id(7)
 @allure.severity("Medium")
-def test_sort_desc(product_page):
+def test_sort_z_a(product_page):
     sort_value = DataProvider().get("sort_options.z-a")
 
     product_page.sort_container(sort_value)
