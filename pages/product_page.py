@@ -1,3 +1,5 @@
+import re
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -33,17 +35,12 @@ class ProductPage:
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.data("selectors.product_page.product_price"))))
         return product_price.text
 
-    # @allure.step("Добавить товар в корзину")
-    # def add_to_cart(self):
-    #     btn_add_to_cart = self.wait.until(
-    #         EC.visibility_of_element_located((By.CSS_SELECTOR, self.selector("selectors.product_page.add_to_cart"))))
-    #     btn_add_to_cart.click()
-
     @allure.step("Добавить товары в корзину")
     def add_to_cart(self, product_key: str):
         # Получаем значение из selectors.product_page.id_XXX
         product_id = DataProvider().get(f"product_ids.{product_key}")
         template = DataProvider().get("selectors.product_page.add_to_cart_template")
+
         selector = template.format(product_id)
         button = self.wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
@@ -53,6 +50,7 @@ class ProductPage:
     def remove_from_cart(self, product_key: str):
         product_id = DataProvider().get(f"product_ids.{product_key}")
         template = DataProvider().get("selectors.product_page.remove_btn_template")
+
         selector = template.format(product_id)
         btn_remove = self.wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
@@ -88,3 +86,7 @@ class ProductPage:
         names = self.wait.until(
             EC.visibility_of_all_elements_located((By.CSS_SELECTOR, self.data("selectors.product_page.product_names"))))
         return [e.text for e in names]
+
+    @allure.step("Очистить цену от доп.знаков")
+    def extract_price(self, price_str: str) -> float:
+        return float(re.sub(r'[^\d.]', '', price_str))

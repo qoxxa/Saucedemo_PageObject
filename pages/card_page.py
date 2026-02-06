@@ -1,3 +1,5 @@
+import re
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -40,6 +42,7 @@ class CartPage:
     def remove_from_cart(self, product_key: str):
         product_id = DataProvider().get(f"product_ids.{product_key}")
         template = DataProvider().get("selectors.product_page.remove_btn_template")
+
         selector = template.format(product_id)
         btn_remove = self.wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))

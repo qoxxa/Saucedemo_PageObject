@@ -27,7 +27,6 @@ def test_add_to_cart(cart_page, product_page):
 
     product_page.add_to_cart("backpack")
     cart_page.open_cart()
-
     product_name = cart_page.get_product_names()
 
     assert len(product_name) == 1
@@ -43,12 +42,9 @@ def test_add_multiple_items_to_cart(cart_page, product_page):
 
     product_page.add_to_cart("backpack")
     product_page.add_to_cart("bike_light")
-
     cart_page.open_cart()
-
     product_names = cart_page.get_product_names()
     product_prices = cart_page.get_prices()
-
     expected_names = {backpack["name"], light["name"]}
     expected_prices = {backpack["price"], light["price"]}
 
@@ -67,7 +63,6 @@ def test_remove_from_cart(cart_page,product_page):
 
     cart_page.open_cart()
     cart_page.remove_from_cart("backpack")
-
     product_names = cart_page.get_product_names()
 
     assert len(product_names) == 1
@@ -81,7 +76,6 @@ def test_checkout(cart_page, product_page):
     actual_url = DataProvider().get("urls.checkout")
 
     product_page.add_to_cart("backpack")
-
     cart_page.open_cart()
     cart_page.checkout_click()
     title = cart_page.title_checkout()

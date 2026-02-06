@@ -50,7 +50,7 @@ def test_sort_asc(product_page):
 
     product_page.sort_container(sort_value)
     prices = product_page.get_prices()
-    numeric_prices = [float(re.sub(r'[^\d.]', '', p)) for p in prices]
+    numeric_prices = [product_page.extract_price(p) for p in prices]
 
     assert numeric_prices == sorted(numeric_prices)
 
@@ -63,16 +63,15 @@ def test_sort_desc(product_page):
 
     product_page.sort_container(sort_value)
     prices = product_page.get_prices()
-    numeric_prices = [float(re.sub(r'[^\d.]', '', p)) for p in prices]
+    numeric_prices = [product_page.extract_price(p) for p in prices]
 
     assert numeric_prices == sorted(numeric_prices, reverse=True)
-    print (numeric_prices)
 
 @allure.title("Сортировка по алфавиту (A-Z)")
 @allure.description("Сортировка по наименованию товара")
 @allure.id(6)
 @allure.severity("Medium")
-def test_sort_desc(product_page):
+def test_sort_asc(product_page):
     sort_value = DataProvider().get("sort_options.a-z")
 
     product_page.sort_container(sort_value)

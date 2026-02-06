@@ -15,6 +15,7 @@ def test_standard_login(login_page):
     login_page.login(user["login"])
     login_page.password(user["password"])
     login_page.login_button()
+
     check_transition = login_page.checking_title()
 
     assert login_page.driver.current_url == actual_url
@@ -35,6 +36,7 @@ def test_invalid_password(login_page):
     login_page.login(user["login"])
     login_page.password(password)
     login_page.login_button()
+
     check_error = login_page.checking_error()
 
     assert login_page.driver.current_url == actual_url
@@ -52,6 +54,7 @@ def test_locked_username(login_page):
     login_page.login(user["login"])
     login_page.password(user["password"])
     login_page.login_button()
+
     check_error = login_page.checking_error()
 
     assert login_page.driver.current_url == actual_url
