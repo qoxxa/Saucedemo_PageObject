@@ -1,4 +1,3 @@
-import re
 import allure
 
 from DataProvider import DataProvider

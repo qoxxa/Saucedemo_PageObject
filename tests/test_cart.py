@@ -1,5 +1,3 @@
-from time import sleep
-
 import allure
 
 from DataProvider import DataProvider
