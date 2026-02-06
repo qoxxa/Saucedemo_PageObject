@@ -14,9 +14,13 @@ class DataProvider:
     def __init__(self) -> None:
         self.data = global_data
 
-    def get(self, prop: str) -> str:
+    def get(self, key: str) -> str:
         """Возвращает значение по ключу как строку"""
-        return self.data.get(prop)
+        keys = key.split(".")
+        value = self.data
+        for k in keys:
+            value = value[k]
+        return value
 
     def getint(self, prop: str) -> int:
         """Возвращает значение по ключу как целое число"""

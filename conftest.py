@@ -5,14 +5,15 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium import webdriver
 from DataProvider import DataProvider
-from tests.MainPage import MainPage
-
+from pages.login_page import LoginPage
+from pages.product_page import ProductPage
+from pages.card_page import CartPage
 
 @pytest.fixture(scope='session')
 def browser():
     headless = os.getenv("HEADLESS", "false").lower() == "true"
     timeout = 10
-    browser_name = DataProvider().get('browser_name').lower()
+    browser_name = DataProvider().get("browsers.chrome").lower()
     prefs = {"profile.password_manager_leak_detection": False}
 
     if browser_name == 'chrome':
@@ -46,12 +47,36 @@ def browser():
     with allure.step("Закрыть браузер"):
         browser.quit()
 
+def _login_and_navigate(browser, url_key, page_class):
+    user = DataProvider().get("users.standard")
+    url = DataProvider().get(url_key)
+
+    # Логинимся
+    login_page = LoginPage(browser)
+    login_page.go()
+    login_page.do_login(user["login"], user["password"])
+
+    # Очищаем состояние (только после загрузки домена!)
+    browser.execute_script("window.localStorage.clear();")
+    browser.execute_script("window.sessionStorage.clear();")
+
+    # Переходим на целевую страницу
+    browser.get(url)
+
+    return page_class(browser)
+
 @pytest.fixture()
-def main_page(browser):
-    main_page = MainPage(browser)
-    main_page.go()
-    return main_page
+def login_page(browser):
+    login_page = LoginPage(browser)
+    login_page.go()
+    return login_page
 
+@pytest.fixture()
+def product_page(browser):
+    return _login_and_navigate(browser, "urls.products", ProductPage)
 
+@pytest.fixture()
+def cart_page(browser):
+    return _login_and_navigate(browser, "urls.cart", CartPage)
 
 

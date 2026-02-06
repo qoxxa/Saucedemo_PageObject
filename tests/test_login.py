@@ -1,68 +1,89 @@
 import allure
 from DataProvider import DataProvider
-from conftest import main_page
+from conftest import login_page
 
 
 @allure.title("Авторизация")
 @allure.description("Авторизация через стандартный логин")
 @allure.id(1)
 @allure.severity("Blocked")
-def test_standart_login(main_page):
-    login = DataProvider().get("standart")
-    password = DataProvider().get("password")
+def test_standard_login(login_page):
+    user = DataProvider().get("users.standard")
+    actual_url = DataProvider().get("urls.products")
+    title_page = DataProvider().get("page_titles.products")
 
-    main_page.login_authorization(login, password)
-    check_transition = main_page.checking_products()
+    login_page.login(user["login"])
+    login_page.password(user["password"])
+    login_page.login_button()
+    check_transition = login_page.checking_title()
 
-    assert main_page.driver.current_url == "https://www.saucedemo.com/inventory.html"
-    assert check_transition == "Products"
+    assert login_page.driver.current_url == actual_url
+    assert check_transition == title_page
+
 
 
 @allure.title("Неверный пароль")
 @allure.description("Авторизация с неверным паролем")
 @allure.id(2)
 @allure.severity("Critical")
-def test_invalid_password(main_page):
-    login = DataProvider().get("standart")
-    password = "invalid_password"
+def test_invalid_password(login_page):
+    user = DataProvider().get("users.standard")
+    password = DataProvider().get("invalid_passwords.invalid")
+    actual_url = DataProvider().get("urls.base")
+    error = DataProvider().get("errors_login.invalid_password")
 
-    main_page.login_authorization(login, password)
-    check_error = main_page.checking_error()
+    login_page.login(user["login"])
+    login_page.password(password)
+    login_page.login_button()
+    check_error = login_page.checking_error()
 
-    assert main_page.driver.current_url == "https://www.saucedemo.com/"
-    assert check_error == "Epic sadface: Username and password do not match any user in this service"
+    assert login_page.driver.current_url == actual_url
+    assert check_error == error
 
 @allure.title("Заблокированный пользователь")
 @allure.description("Авторизация заблокированного пользователя")
 @allure.id(3)
 @allure.severity("Critical")
-def test_locked_username(main_page):
-    login = DataProvider().get("locked_out")
-    password = DataProvider().get("password")
+def test_locked_username(login_page):
+    user = DataProvider().get("users.locked_out")
+    actual_url = DataProvider().get("urls.base")
+    error = DataProvider().get("errors_login.locked")
 
-    main_page.login_authorization(login, password)
-    check_error = main_page.checking_error()
+    login_page.login(user["login"])
+    login_page.password(user["password"])
+    login_page.login_button()
+    check_error = login_page.checking_error()
 
-    assert main_page.driver.current_url == "https://www.saucedemo.com/"
-    assert check_error == "Epic sadface: Sorry, this user has been locked out."
+    assert login_page.driver.current_url == actual_url
+    assert check_error == error
 
 @allure.title("Пустые поля ввода")
 @allure.description("Авторизация с пустыми полями ввода")
+@allure.id(4)
+@allure.severity("Critical")
+def test_empty_fields(login_page):
+    actual_url = DataProvider().get("urls.base")
+    error = DataProvider().get("errors_login.empty_fields")
+
+    login_page.login_button()
+    check_error = login_page.checking_error()
+
+    assert login_page.driver.current_url == actual_url
+    assert check_error == error
+
+@allure.title("Вход с задержкой")
+@allure.description("Вход пользователя с задержкой интернета")
 @allure.id(5)
 @allure.severity("Critical")
-def test_empty_fields(main_page):
-    main_page.click_login_button()
-    check_error = main_page.checking_error()
+def test_performance_glitch(login_page):
+    user = DataProvider().get("users.performance_glitch")
+    actual_url = DataProvider().get("urls.products")
+    title_page = DataProvider().get("page_titles.products")
 
-    assert main_page.driver.current_url == "https://www.saucedemo.com/"
-    assert check_error == "Epic sadface: Username is required"
+    login_page.login(user["login"])
+    login_page.password(user["password"])
+    login_page.login_button()
+    check_transition = login_page.checking_title()
 
-def test_performance_glitch(main_page):
-    login = DataProvider().get("performance_glitch")
-    password = DataProvider().get("password")
-
-    main_page.login_authorization(login, password)
-    check_transition = main_page.checking_products()
-
-    assert main_page.driver.current_url == "https://www.saucedemo.com/inventory.html"
-    assert check_transition == "Products"
+    assert login_page.driver.current_url == actual_url
+    assert check_transition == title_page

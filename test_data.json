@@ -1,14 +1,121 @@
 {
-  "url": "https://www.saucedemo.com/",
-
-  "standart": "standard_user",
-  "locked_out": "locked_out_user",
-  "problem": "problem_user",
-  "performance_glitch": "performance_glitch_user",
-  "error": "error_user",
-  "visual": "visual_user",
-
-  "password": "secret_sauce",
-
-  "browser_name": "chrome"
+  "browsers": {
+    "chrome": "chrome",
+    "firefox": "firefox"
+  },
+  "urls": {
+    "base": "https://www.saucedemo.com/",
+    "products": "https://www.saucedemo.com/inventory.html",
+    "cart": "https://www.saucedemo.com/cart.html",
+    "checkout": "https://www.saucedemo.com/checkout-step-one.html"
+  },
+  "users": {
+    "standard": {
+      "login": "standard_user",
+      "password": "secret_sauce"
+    },
+    "locked_out": {
+      "login": "locked_out_user",
+      "password": "secret_sauce"
+    },
+    "problem": {
+      "login": "problem_user",
+      "password": "secret_sauce"
+    },
+    "performance_glitch": {
+      "login": "performance_glitch_user",
+      "password": "secret_sauce"
+    },
+    "error": {
+      "login": "error_user",
+      "password": "secret_sauce"
+    }
+  },
+  "invalid_logins": {
+    "empty": "",
+    "nonexistent": "nonexistent_user",
+    "sql_injection": "'; DROP TABLE users; --",
+    "xss": "<script>alert(1)</script>",
+    "spaces": "   ",
+    "special_chars": "!@#$%^&*()"
+  },
+  "invalid_passwords": {
+    "invalid": "invalid_password",
+    "empty": "",
+    "wrong": "wrong_password",
+    "sql_injection": "'; DROP TABLE users; --"
+  },
+  "selectors": {
+    "login_page": {
+      "username": "user-name",
+      "password": "password",
+      "login_btn": "login-button",
+      "title_text": ".title",
+      "authentication error": "h3[data-test='error']"
+    },
+    "product_page": {
+      "product_backpack": "//div[normalize-space()='Sauce Labs Backpack']",
+      "product_name": ".inventory_details_name.large_size",
+      "product_price": ".inventory_details_price",
+      "add_to_cart": "#add-to-cart-sauce-labs-backpack",
+      "btn_remove": "#remove",
+      "icon_cart": ".shopping_cart_link",
+      "add_to_cart_template": "[data-test='add-to-cart-{}']",
+      "remove_btn_template": "[data-test='remove-{}']",
+      "sort_container": ".product_sort_container",
+      "prices": ".inventory_item_price",
+      "active_sort_option": ".active_option",
+      "product_names": ".inventory_item_name "
+    },
+    "cart_page": {
+      "cart_icon": ".shopping_cart_link",
+      "cart_title": ".title",
+      "checkout_btn": "checkout",
+      "title_checkout": ".title"
+    }
+  },
+  "page_titles": {
+    "products": "Products",
+    "cart": "Your Cart",
+    "checkout": "Checkout: Your Information"
+  },
+  "errors_login": {
+    "invalid_password": "Epic sadface: Username and password do not match any user in this service",
+    "locked": "Epic sadface: Sorry, this user has been locked out.",
+    "empty_fields": "Epic sadface: Username is required"
+  },
+  "sort_options": {
+    "a-z": "az",
+    "z-a": "za",
+    "asc": "lohi",
+    "desc": "hilo"
+  },
+  "product_ids": {
+    "backpack": "sauce-labs-backpack",
+    "bike_light": "sauce-labs-bike-light",
+    "shirt": "test.allthethings()-t-shirt-(red)",
+    "jacket": "sauce-labs-fleece-jacket"
+  },
+  "products": {
+    "backpack": {
+      "name": "Sauce Labs Backpack",
+      "price": "$29.99"
+    },
+    "light": {
+      "name": "Sauce Labs Bike Light",
+      "price": "$9.99"
+    },
+    "jacket": {
+      "name": "Sauce Labs Fleece Jacket",
+      "price": "$49.99"
+    },
+    "Onesie": {
+      "name": "Sauce Labs Onesie",
+      "price": "$7.99"
+    },
+    "T-Shirt": {
+      "name": "Test.allTheThings() T-Shirt (Red)",
+      "price": "$15.99"
+    }
+  }
 }
