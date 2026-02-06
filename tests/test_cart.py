@@ -21,7 +21,7 @@ def test_open_cart(cart_page):
 @allure.title("Добавить товар в корзину")
 @allure.description("Проверка корректности добавления товара")
 @allure.id(2)
-@allure.severity("Blocked")
+@allure.severity("Critical")
 def test_add_to_cart(cart_page, product_page):
     backpack_name = DataProvider().get("products.backpack.name")
 
@@ -75,7 +75,7 @@ def test_remove_from_cart(cart_page,product_page):
 @allure.title("Переход на страницу оформления заказа")
 @allure.description("Проверка работы кнопки перехода")
 @allure.id(5)
-@allure.severity("Blocked")
+@allure.severity("Critical")
 def test_checkout(cart_page, product_page):
     actual_title = DataProvider().get("page_titles.checkout")
     actual_url = DataProvider().get("urls.checkout")

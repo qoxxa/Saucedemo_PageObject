@@ -6,7 +6,7 @@ from conftest import login_page
 @allure.title("Авторизация")
 @allure.description("Авторизация через стандартный логин")
 @allure.id(1)
-@allure.severity("Blocked")
+@allure.severity("Critical")
 def test_standard_login(login_page):
     user = DataProvider().get("users.standard")
     actual_url = DataProvider().get("urls.products")
